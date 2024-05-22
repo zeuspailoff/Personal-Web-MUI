@@ -1,0 +1,24 @@
+
+.banner{
+  background-image: url("../public/AbrahamBanner.png");
+  background-size: cover;
+  height: 45vh;
+}
+
+@media (max-width: 1600px) {
+  .banner {
+    background-image: url("../public/AbrahamBanner.png");
+    background-size: cover;
+    height: 45vh;
+    
+  }
+}
+
+@media (max-width: 600px) {
+  .banner {
+    background-image: url("../public/AbrahamBannerMovile.png");
+    background-size: 100%, 100%;
+    height: 17vh;
+    
+  }
+}
