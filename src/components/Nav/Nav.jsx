@@ -29,7 +29,7 @@ export default function Nav() {
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
             <Link to="/">
                 <Typography variant="h6" sx={{ my: 2 }}>
-                    <img src="public\logoabraham.png" alt="Logo" style={{ width: '100px', height: 'auto' }} />
+                    <img src="/logoabraham.png" alt="Logo" style={{ width: '100px', height: 'auto' }} />
                 </Typography>
             </Link>
             <Divider />
@@ -62,7 +62,7 @@ export default function Nav() {
                         <MenuIcon />
                     </IconButton>
                     <Link to="/home">
-                        <img src="../public\Abraham.png" alt="Logo" style={{ width: '110px', height: 'auto' }} />
+                        <img src="/Abraham.png" alt="Logo" style={{ width: '110px', height: 'auto' }} />
                     </Link>
                     <Typography
                         variant="h6"

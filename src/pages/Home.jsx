@@ -23,7 +23,7 @@ const Home = () => {
                     <Card sx={{ maxWidth: '90%', margin: 'auto' }} align="center">
                         <CardMedia
                             sx={{ height: 340 }}
-                            image="../spacegif1.gif"
+                            image="/spacegif1.gif"
                             title="Space game gif"
                         />
                         <CardContent>
@@ -31,7 +31,7 @@ const Home = () => {
                                 Space-Game
                             </Typography>
                             <Typography variant="body1" fontWeight="fontWeightMedium" color="text.secondary">
-                                Embark on an exciting space adventure in Cosmic Cascade! This Asteroids-style game challenges you to navigate asteroid fields, dodge enemies, and unleash laser chaos. Get ready for a classic arcade experience with a modern twist!
+                                Embark on an exciting space adventure in Cosmic Cascade! This Asteroids-style game challenges you to navigate asteroid fields, dodge enemies, and unleash laser chaos.
                             </Typography>
                         </CardContent>
                         <CardActions>
@@ -52,7 +52,7 @@ const Home = () => {
                     <Card sx={{ maxWidth: '90%', margin: 'auto' }} align="center">
                         <CardMedia
                             sx={{ height: 340 }}
-                            image="../public/restauranteAbuela.png"
+                            image="/restauranteAbuela.png"
                             title="Description Casa Abuela"
                         />
                         <CardContent>
@@ -81,7 +81,7 @@ const Home = () => {
                     <Card sx={{ maxWidth: '90%', margin: 'auto' }} align="center">
                         <CardMedia
                             sx={{ height: 340 }}
-                            image="../public/ThunderPeque.png"
+                            image="/ThunderPeque.png"
                             title="Image Text Editor"
                         />
                         <CardContent>
@@ -110,7 +110,7 @@ const Home = () => {
                     <Card sx={{ maxWidth: '90%', margin: 'auto' }} align="center">
                         <CardMedia
                             sx={{ height: 340 }}
-                            image="../public/pizzaquiz.gif"
+                            image="/pizzaquiz.gif"
                             title="Image PizzaQuiz"
                         />
                         <CardContent>
@@ -146,7 +146,7 @@ const Home = () => {
                     <Card sx={{ maxWidth: '90%', margin: 'auto' }} align="center">
                         <CardMedia
                             sx={{ height: 340 }}
-                            image="../public/Home.png"
+                            image="/Home.png"
                             title="IneedUp"
                         />
                         <CardContent>
@@ -182,7 +182,7 @@ const Home = () => {
                     <Card sx={{ maxWidth: '90%', margin: 'auto', marginBottom: '30px' }} align="center">
                         <CardMedia
                             sx={{ height: 340 }}
-                            image="../public/cvfoto.png"
+                            image="/cvfoto.png"
                             title="My First CV"
                         />
                         <CardContent>

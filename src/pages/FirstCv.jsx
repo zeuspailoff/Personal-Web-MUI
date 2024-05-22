@@ -44,7 +44,7 @@ const FirstCv = () => {
                 <Grid item xs={12} md={6}>
                     <Box sx={{ p: 2, bgcolor: 'rgb(189, 189, 189)', width: '100%', height: '100%' }}>
                         <img
-                            src={`../cvfoto359.png`}
+                            src={`/cvfoto359.png`}
                             alt='game'
                             loading="lazy"
                             style={{ width: '100%', height: 'auto', objectFit: 'cover' }}

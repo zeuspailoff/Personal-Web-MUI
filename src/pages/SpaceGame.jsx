@@ -42,7 +42,7 @@ const SpaceGame = () => {
                 <Grid item xs={12} md={6}>
                     <Box sx={{ p: 2, bgcolor: 'rgb(189, 189, 189)', width: '100%', height: '100%' }}>
                         <img
-                            src={`../public/spacegif1.gif`}
+                            src={`/spacegif1.gif`}
                             alt='game'
                             loading="lazy"
                             style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
