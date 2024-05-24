@@ -8,6 +8,8 @@ const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const userID = import.meta.env.VITE_EMAILJS_USER_ID;
 
+
+
 const Contact = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -47,7 +49,10 @@ const Contact = () => {
     return (
         <div style={{ display: 'flex', backgroundColor: 'rgb(189, 189, 189)', flexDirection: 'column', minHeight: '100vh', minWidth: '100vw' }}>
             <div style={{ display: 'flex', bgcolor: 'rgb(189, 189, 189)', flexDirection: 'column', flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingTop: '110px', width: '100%' }}>
-                <Box sx={{ p: 4, bgcolor: 'white', width: '40%', minHeight: '90%', borderRadius: '25px', boxShadow: '3px 2px 10px black' }}>
+                <Box sx={{
+                    p: 4, bgcolor: 'white', width: { xs: '90%', sm: '70%', md: '50%', lg: '40%' }
+                    , minHeight: '90%', borderRadius: '25px', boxShadow: '3px 2px 10px black'
+                }}>
                     <Typography variant="h4" fontWeight="fontWeightMedium" color="black" gutterBottom>
                         Contact Me
                     </Typography>

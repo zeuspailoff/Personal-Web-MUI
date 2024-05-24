@@ -17,7 +17,7 @@ const Home = () => {
                     <Typography align="center"></Typography>
                 </Grid>
                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', background: '#37474f', height: 125 }} style={{ background: '#bdbdbd' }}>
-                    <Typography align="center" fontWeight="fontWeightBold" variant="h3" component='h1'>Portfolio Showcase: Exploring My Creations</Typography>
+                    <Typography align="center" fontWeight="fontWeightBold" variant="h4" component='h1'>Portfolio Showcase: Exploring My Creations</Typography>
                 </Grid>
                 <Grid item xs={12} md={4} style={{ textAlign: 'center' }}>
                     <Card sx={{ maxWidth: '90%', margin: 'auto' }} align="center">
