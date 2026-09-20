@@ -75,9 +75,11 @@ const AboutSection = () => {
                 >
                   {t('hero.ctaContact')}
                 </Button>
-                <Button component="a" href={site.cv} download variant="outlined" startIcon={<DownloadIcon />}>
-                  {t('hero.ctaCv')}
-                </Button>
+                {site.cv ? (
+                  <Button component="a" href={site.cv} download variant="outlined" startIcon={<DownloadIcon />}>
+                    {t('hero.ctaCv')}
+                  </Button>
+                ) : null}
               </Stack>
             </Reveal>
           </Grid>

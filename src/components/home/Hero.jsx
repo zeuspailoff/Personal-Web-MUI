@@ -128,16 +128,27 @@ const Hero = () => {
               >
                 {t('hero.ctaProjects')}
               </Button>
-              <Button
-                component="a"
-                href={site.cv}
-                download
-                variant="outlined"
-                size="large"
-                startIcon={<DownloadIcon />}
-              >
-                {t('hero.ctaCv')}
-              </Button>
+              {site.cv ? (
+                <Button
+                  component="a"
+                  href={site.cv}
+                  download
+                  variant="outlined"
+                  size="large"
+                  startIcon={<DownloadIcon />}
+                >
+                  {t('hero.ctaCv')}
+                </Button>
+              ) : (
+                <Button
+                  component={RouterLink}
+                  to="/contact"
+                  variant="outlined"
+                  size="large"
+                >
+                  {t('hero.ctaContact')}
+                </Button>
+              )}
               <Stack direction="row" spacing={0.5} sx={{ ml: { sm: 1 } }}>
                 <Tooltip title={t('footer.github')}>
                   <IconButton

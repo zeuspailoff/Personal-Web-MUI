@@ -116,17 +116,19 @@ const Nav = () => {
             <Stack direction="row" spacing={0.5} alignItems="center" sx={{ color: 'text.primary' }}>
               {langToggle}
               {themeToggle}
-              <Button
-                component="a"
-                href={site.cv}
-                download
-                variant="contained"
-                size="small"
-                startIcon={<DownloadIcon fontSize="small" />}
-                sx={{ display: { xs: 'none', sm: 'inline-flex' }, ml: 0.5 }}
-              >
-                CV
-              </Button>
+              {site.cv ? (
+                <Button
+                  component="a"
+                  href={site.cv}
+                  download
+                  variant="contained"
+                  size="small"
+                  startIcon={<DownloadIcon fontSize="small" />}
+                  sx={{ display: { xs: 'none', sm: 'inline-flex' }, ml: 0.5 }}
+                >
+                  CV
+                </Button>
+              ) : null}
               <IconButton
                 color="inherit"
                 aria-label={t('nav.menu')}
@@ -180,18 +182,22 @@ const Nav = () => {
             </ListItem>
           ))}
         </List>
-        <Divider sx={{ my: 1 }} />
-        <Button
-          component="a"
-          href={site.cv}
-          download
-          variant="contained"
-          fullWidth
-          startIcon={<DownloadIcon />}
-          onClick={closeDrawer}
-        >
-          {t('hero.ctaCv')}
-        </Button>
+        {site.cv ? (
+          <>
+            <Divider sx={{ my: 1 }} />
+            <Button
+              component="a"
+              href={site.cv}
+              download
+              variant="contained"
+              fullWidth
+              startIcon={<DownloadIcon />}
+              onClick={closeDrawer}
+            >
+              {t('hero.ctaCv')}
+            </Button>
+          </>
+        ) : null}
       </Drawer>
     </>
   );

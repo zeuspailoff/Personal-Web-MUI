@@ -3,7 +3,9 @@ export const site = {
   fullName: 'Abraham Díaz González',
   logo: '/Abraham.png',
   logoOnLight: '/logoabraham.png',
-  cv: '/Abraham-Diaz-CV.pdf',
+  // Deja un PDF en public/ y pon aquí su ruta (p.ej. '/Abraham-Diaz-CV.pdf')
+  // para que reaparezcan los botones de descarga del CV. Con null se ocultan.
+  cv: null,
   github: 'https://github.com/zeuspailoff/',
   linkedin: 'https://www.linkedin.com/in/abrahamdiazgonzalez/',
 };
