@@ -1,102 +1,200 @@
-import * as React from 'react';
+import { useState } from 'react';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import ListItemText from '@mui/material/ListItemText';
+import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import CloseIcon from '@mui/icons-material/Close';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import DownloadIcon from '@mui/icons-material/Download';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
+import TranslateIcon from '@mui/icons-material/Translate';
+import Logo from '../Logo';
+import { useColorMode } from '../../context/ColorModeContext';
+import { useLanguage } from '../../i18n/LanguageContext';
+import { site } from '../../data/site';
 
-const drawerWidth = 240;
-const navItems = ['Home', 'Contact'];
+const drawerWidth = 280;
 
-export default function Nav() {
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+const navItems = [
+  { key: 'nav.home', to: '/' },
+  { key: 'nav.projects', to: '/#projects' },
+  { key: 'nav.about', to: '/#about' },
+  { key: 'nav.contact', to: '/contact' },
+];
 
-    const handleDrawerToggle = () => {
-        setMobileOpen((prevState) => !prevState);
-    };
+const Nav = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { pathname, hash } = useLocation();
+  const { mode, toggleColorMode } = useColorMode();
+  const { lang, toggleLang, t } = useLanguage();
+  const scrolled = useScrollTrigger({ disableHysteresis: true, threshold: 12 });
 
-    const drawer = (
+  const closeDrawer = () => setMobileOpen(false);
+  const isActive = (to) => (to.includes('#') ? pathname === '/' && hash === `#${to.split('#')[1]}` : pathname === to);
 
-        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            <Link to="/">
-                <Typography variant="h6" sx={{ my: 2 }}>
-                    <img src="/logoabraham.png" alt="Logo" style={{ width: '100px', height: 'auto' }} />
-                </Typography>
-            </Link>
-            <Divider />
-            <List>
-                {navItems.map((item) => (
-                    <ListItem key={item} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center' }}>
-                            <Link to={`/${item}`} style={{ textDecoration: 'none', color: 'inherit' }} >{item}</Link>
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-        </Box>
+  const themeToggle = (
+    <Tooltip title={t('nav.toggleTheme')}>
+      <IconButton onClick={toggleColorMode} color="inherit" aria-label={t('nav.toggleTheme')}>
+        {mode === 'dark' ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+      </IconButton>
+    </Tooltip>
+  );
 
-    );
+  const langToggle = (
+    <Tooltip title={t('nav.toggleLanguage')}>
+      <Button
+        onClick={toggleLang}
+        color="inherit"
+        size="small"
+        startIcon={<TranslateIcon fontSize="small" />}
+        aria-label={t('nav.toggleLanguage')}
+        sx={{ minWidth: 0, px: 1.5 }}
+      >
+        {lang === 'en' ? 'ES' : 'EN'}
+      </Button>
+    </Tooltip>
+  );
 
-    return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <AppBar sx={{ background: '#37474f', height: '109px' }} component="nav"  >
-                <Toolbar style={{ width: '100%', justifyContent: 'space-between' }}>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="end"
-                        textAlign="right"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Link to="/home">
-                        <img src="/Abraham.png" alt="Logo" style={{ width: '110px', height: 'auto' }} />
-                    </Link>
-                    <Typography
-                        variant="h6"
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                    >
-                    </Typography>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.map((item) => (
-                            <Button key={item} sx={{ color: '#fff' }}>
-                                <Link to={`/${item}`} style={{ textDecoration: 'none', color: 'inherit' }} >{item}</Link>
-                            </Button>
-                        ))}
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            <nav>
-                <Drawer
-                    variant="temporary"
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
-                    sx={{
-                        display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                    }}
+  return (
+    <>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        color="transparent"
+        sx={{
+          backdropFilter: scrolled ? 'blur(14px)' : 'none',
+          backgroundColor: (theme) =>
+            scrolled ? alpha(theme.palette.background.default, 0.82) : 'transparent',
+          borderBottom: (theme) =>
+            `1px solid ${scrolled ? theme.palette.divider : 'transparent'}`,
+          transition: 'background-color .3s ease, border-color .3s ease, backdrop-filter .3s ease',
+        }}
+      >
+        <Container maxWidth="lg" disableGutters>
+          <Toolbar sx={{ gap: 1, px: { xs: 2, md: 3 }, minHeight: { xs: 68, md: 80 } }}>
+            <Box
+              component={RouterLink}
+              to="/"
+              aria-label={site.name}
+              sx={{ display: 'inline-flex', alignItems: 'center', mr: 'auto' }}
+            >
+              <Logo height={{ xs: 46, md: 56 }} />
+            </Box>
+
+            <Stack direction="row" spacing={0.5} sx={{ display: { xs: 'none', md: 'flex' } }}>
+              {navItems.map((item) => (
+                <Button
+                  key={item.key}
+                  component={RouterLink}
+                  to={item.to}
+                  color="inherit"
+                  sx={{
+                    px: 2,
+                    color: isActive(item.to) ? 'primary.main' : 'text.primary',
+                    '&:hover': { color: 'primary.main', bgcolor: 'transparent' },
+                  }}
                 >
-                    {drawer}
-                </Drawer>
+                  {t(item.key)}
+                </Button>
+              ))}
+            </Stack>
 
-            </nav>
+            <Stack direction="row" spacing={0.5} alignItems="center" sx={{ color: 'text.primary' }}>
+              {langToggle}
+              {themeToggle}
+              <Button
+                component="a"
+                href={site.cv}
+                download
+                variant="contained"
+                size="small"
+                startIcon={<DownloadIcon fontSize="small" />}
+                sx={{ display: { xs: 'none', sm: 'inline-flex' }, ml: 0.5 }}
+              >
+                CV
+              </Button>
+              <IconButton
+                color="inherit"
+                aria-label={t('nav.menu')}
+                onClick={() => setMobileOpen(true)}
+                sx={{ display: { md: 'none' } }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Stack>
+          </Toolbar>
+        </Container>
+      </AppBar>
 
-        </Box>
-    );
-}
+      <Drawer
+        anchor="right"
+        variant="temporary"
+        open={mobileOpen}
+        onClose={closeDrawer}
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          display: { md: 'none' },
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            backgroundImage: 'none',
+            bgcolor: 'background.default',
+            p: 2,
+          },
+        }}
+      >
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
+          <Box component={RouterLink} to="/" onClick={closeDrawer}>
+            <Logo height={52} />
+          </Box>
+          <IconButton onClick={closeDrawer} aria-label="close">
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+        <Divider />
+        <List>
+          {navItems.map((item) => (
+            <ListItem key={item.key} disablePadding>
+              <ListItemButton
+                component={RouterLink}
+                to={item.to}
+                onClick={closeDrawer}
+                selected={isActive(item.to)}
+                sx={{ borderRadius: 2 }}
+              >
+                <ListItemText primaryTypographyProps={{ fontWeight: 600 }} primary={t(item.key)} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider sx={{ my: 1 }} />
+        <Button
+          component="a"
+          href={site.cv}
+          download
+          variant="contained"
+          fullWidth
+          startIcon={<DownloadIcon />}
+          onClick={closeDrawer}
+        >
+          {t('hero.ctaCv')}
+        </Button>
+      </Drawer>
+    </>
+  );
+};
+
+export default Nav;

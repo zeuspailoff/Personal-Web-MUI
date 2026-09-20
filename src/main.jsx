@@ -1,14 +1,16 @@
 import React from 'react';
-import App from './App.jsx';
-import './index.css';
-import FonTheme from './Helpers/FontTheme.jsx';
-import { ThemeProvider } from "@mui/material";
 import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
+import ColorModeProvider from './context/ColorModeProvider.jsx';
+import LanguageProvider from './i18n/LanguageProvider.jsx';
+import './index.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider theme={FonTheme}>
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>
+    <LanguageProvider>
+      <ColorModeProvider>
+        <App />
+      </ColorModeProvider>
+    </LanguageProvider>
+  </React.StrictMode>,
 );

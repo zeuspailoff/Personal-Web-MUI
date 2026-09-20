@@ -1,124 +1,205 @@
-/* eslint-disable react/no-unescaped-entities */
-import { Box, Typography, TextField, Button, Grid } from '@mui/material';
-import emailjs from 'emailjs-com';
 import { useState } from 'react';
-import Footer from "../components/Footer/Footer";
+import emailjs from 'emailjs-com';
+import { alpha } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Snackbar from '@mui/material/Snackbar';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import SendIcon from '@mui/icons-material/Send';
+import Layout from '../components/layout/Layout';
+import Reveal from '../components/Reveal';
+import useDocumentTitle from '../hooks/useDocumentTitle';
+import { useLanguage } from '../i18n/LanguageContext';
+import { site } from '../data/site';
 
 const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const userID = import.meta.env.VITE_EMAILJS_USER_ID;
+const emailConfigured = Boolean(serviceID && templateID && userID);
 
-
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMPTY = { name: '', email: '', subject: '', message: '' };
 
 const Contact = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
+  const { t } = useLanguage();
+  const [formData, setFormData] = useState(EMPTY);
+  const [errors, setErrors] = useState({});
+  const [sending, setSending] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  useDocumentTitle(t('contact.title'));
+
+  const validate = () => {
+    const next = {};
+    Object.entries(formData).forEach(([field, value]) => {
+      if (!value.trim()) next[field] = t('contact.errRequired');
     });
+    if (!next.email && !EMAIL_RE.test(formData.email)) next.email = t('contact.errEmail');
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => (prev[name] ? { ...prev, [name]: undefined } : prev));
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!validate()) return;
 
-        emailjs.send(
-            serviceID,
-            templateID,
-            formData,
-            userID
-        )
-            .then((response) => {
-                console.log('SUCCESS!', response.status, response.text);
-                alert('Message sent successfully!');
-                setFormData({ name: '', email: '', subject: '', message: '' });
-            })
-            .catch((err) => {
-                console.error('FAILED...', err);
-                alert('Failed to send message. Please try again later.');
-            });
-    };
+    if (!emailConfigured) {
+      setToast({ severity: 'warning', message: t('contact.notConfigured') });
+      return;
+    }
 
-    return (
-        <div style={{ display: 'flex', backgroundColor: 'rgb(189, 189, 189)', flexDirection: 'column', minHeight: '100vh', minWidth: '100vw' }}>
-            <div style={{ display: 'flex', bgcolor: 'rgb(189, 189, 189)', flexDirection: 'column', flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingTop: '110px', width: '100%' }}>
-                <Box sx={{
-                    p: 4, bgcolor: 'white', width: { xs: '90%', sm: '70%', md: '50%', lg: '40%' }
-                    , minHeight: '90%', borderRadius: '25px', boxShadow: '3px 2px 10px black'
-                }}>
-                    <Typography variant="h4" fontWeight="fontWeightMedium" color="black" gutterBottom>
-                        Contact Me
-                    </Typography>
-                    <Typography variant="body1" color="black" paragraph sx={{ fontSize: '1.2rem' }}>
-                        If you have any questions, feel free to reach out to me through the form below. I'll get back to you as soon as possible! Don't forget to include a contact method so I can respond to you.
-                    </Typography>
-                    <Box component="form" sx={{ mt: 3 }} onSubmit={handleSubmit}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="name"
-                                    label="Name"
-                                    name="name"
-                                    autoComplete="name"
-                                    variant="outlined"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                />
-                            </Grid>
+    setSending(true);
+    try {
+      await emailjs.send(serviceID, templateID, formData, userID);
+      setToast({ severity: 'success', message: t('contact.success') });
+      setFormData(EMPTY);
+    } catch {
+      setToast({ severity: 'error', message: t('contact.error') });
+    } finally {
+      setSending(false);
+    }
+  };
 
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="subject"
-                                    label="Subject"
-                                    name="subject"
-                                    autoComplete="subject"
-                                    variant="outlined"
-                                    value={formData.subject}
-                                    onChange={handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="message"
-                                    label="Message"
-                                    name="message"
-                                    autoComplete="message"
-                                    variant="outlined"
-                                    multiline
-                                    rows={4}
-                                    value={formData.message}
-                                    onChange={handleChange}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            sx={{ mt: 3 }}
-                        >
-                            Send Message
-                        </Button>
-                    </Box>
-                </Box>
-            </div>
+  const fieldProps = (name) => ({
+    name,
+    id: name,
+    value: formData[name],
+    onChange: handleChange,
+    error: Boolean(errors[name]),
+    helperText: errors[name] ?? ' ',
+    fullWidth: true,
+    label: t(`contact.${name}`),
+  });
 
-            <Footer style={{ position: 'relative', width: '100%' }} />
-        </div>
-    );
+  return (
+    <Layout>
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+        <Grid container spacing={{ xs: 4, md: 6 }} alignItems="flex-start">
+          <Grid item xs={12} md={5}>
+            <Reveal>
+              <Typography variant="overline" color="primary.main">
+                {t('contact.eyebrow')}
+              </Typography>
+              <Typography variant="h2" sx={{ fontSize: { xs: '2.2rem', md: '3rem' }, mt: 1, mb: 3 }}>
+                {t('contact.title')}
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ fontSize: '1.08rem', mb: 4 }}>
+                {t('contact.intro')}
+              </Typography>
+
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                {t('contact.elsewhere')}
+              </Typography>
+              <Stack direction="row" spacing={1.5} sx={{ mt: 1 }}>
+                <Button
+                  component="a"
+                  href={site.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="outlined"
+                  startIcon={<GitHubIcon />}
+                >
+                  GitHub
+                </Button>
+                <Button
+                  component="a"
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="outlined"
+                  startIcon={<LinkedInIcon />}
+                >
+                  LinkedIn
+                </Button>
+              </Stack>
+            </Reveal>
+          </Grid>
+
+          <Grid item xs={12} md={7}>
+            <Reveal delay={120}>
+              <Card
+                sx={{
+                  boxShadow: (theme) => `0 30px 60px ${alpha(theme.palette.common.black, 0.28)}`,
+                }}
+              >
+                <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                  <Box component="form" noValidate onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField {...fieldProps('name')} autoComplete="name" required />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          {...fieldProps('email')}
+                          type="email"
+                          autoComplete="email"
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField {...fieldProps('subject')} required />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField {...fieldProps('message')} multiline rows={6} required />
+                      </Grid>
+                    </Grid>
+
+                    {!emailConfigured ? (
+                      <Alert severity="info" sx={{ mt: 1, mb: 2 }}>
+                        {t('contact.notConfigured')}
+                      </Alert>
+                    ) : null}
+
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      size="large"
+                      disabled={sending}
+                      startIcon={
+                        sending ? <CircularProgress size={18} color="inherit" /> : <SendIcon />
+                      }
+                      sx={{ mt: 1 }}
+                    >
+                      {sending ? t('contact.sending') : t('contact.send')}
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Reveal>
+          </Grid>
+        </Grid>
+      </Container>
+
+      <Snackbar
+        open={Boolean(toast)}
+        autoHideDuration={6000}
+        onClose={() => setToast(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        {toast ? (
+          <Alert severity={toast.severity} variant="filled" onClose={() => setToast(null)}>
+            {toast.message}
+          </Alert>
+        ) : undefined}
+      </Snackbar>
+    </Layout>
+  );
 };
 
 export default Contact;

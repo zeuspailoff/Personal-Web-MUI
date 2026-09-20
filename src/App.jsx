@@ -1,40 +1,37 @@
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
-import ScrollToTop from './components/ScrollToTop'
-import Nav from '../src/components/Nav/Nav'
-import Home from './pages/Home'
-import Contact from './pages/Contact'
-import SpaceGame from './pages/SpaceGame'
-import Restaurant from './pages/Restaurant'
-import Pizza from './pages/Pizza'
-import Editor from './pages/Editor'
-import FirstCv from './pages/FirstCv'
-import Ineed from './pages/Ineed'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
+import Home from './pages/Home';
+import Contact from './pages/Contact';
+import ProjectDetail from './pages/ProjectDetail';
+import NotFound from './pages/NotFound';
 
+/** Old capitalised URLs kept alive so existing links and bookmarks still land. */
+const legacyRoutes = {
+  '/Home': '/',
+  '/Contact': '/contact',
+  '/SpaceGame': '/projects/space-game',
+  '/Restaurant': '/projects/restaurants',
+  '/Editor': '/projects/text-editor',
+  '/Pizza': '/projects/pizza-quiz',
+  '/Ineed': '/projects/ineedup',
+  '/FirstCv': '/projects/first-cv',
+};
 
+const App = () => (
+  <BrowserRouter>
+    <ScrollToTop />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/projects/:slug" element={<ProjectDetail />} />
 
-function App() {
-  return (
-    <>
-      <BrowserRouter>
-        <Nav />
-        <ScrollToTop />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/Home' element={<Home />} />
-          <Route path='/Contact' element={<Contact />} />
-          <Route path='/SpaceGame' element={<SpaceGame />} />
-          <Route path='/Ineed' element={<Ineed />} />
-          <Route path='/Editor' element={<Editor />} />
-          <Route path='/FirstCv' element={<FirstCv />} />
-          <Route path='/Pizza' element={<Pizza />} />
-          <Route path='/Restaurant' element={<Restaurant />} />
+      {Object.entries(legacyRoutes).map(([from, to]) => (
+        <Route key={from} path={from} element={<Navigate to={to} replace />} />
+      ))}
 
-        </Routes>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </BrowserRouter>
+);
 
-      </BrowserRouter>
-
-    </>
-  )
-}
-
-export default App
+export default App;
