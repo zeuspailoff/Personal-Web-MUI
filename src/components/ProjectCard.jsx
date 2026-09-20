@@ -10,6 +10,7 @@ import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
+import { asset } from '../utils/asset';
 import Typography from '@mui/material/Typography';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -53,7 +54,7 @@ const ProjectCard = ({ project }) => {
       >
         <Box
           component="img"
-          src={project.cover}
+          src={asset(project.cover)}
           alt={copy.title}
           loading="lazy"
           sx={{

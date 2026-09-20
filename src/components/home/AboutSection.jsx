@@ -10,6 +10,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DownloadIcon from '@mui/icons-material/Download';
 import Reveal from '../Reveal';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { asset } from '../../utils/asset';
 import { site } from '../../data/site';
 
 const AboutSection = () => {
@@ -44,7 +45,7 @@ const AboutSection = () => {
               >
                 <Box
                   component="img"
-                  src="/cvfotoresume.png"
+                  src={asset('/cvfotoresume.png')}
                   alt={site.fullName}
                   loading="lazy"
                   sx={{ width: '100%', height: 'auto', display: 'block' }}
@@ -76,7 +77,7 @@ const AboutSection = () => {
                   {t('hero.ctaContact')}
                 </Button>
                 {site.cv ? (
-                  <Button component="a" href={site.cv} download variant="outlined" startIcon={<DownloadIcon />}>
+                  <Button component="a" href={asset(site.cv)} download variant="outlined" startIcon={<DownloadIcon />}>
                     {t('hero.ctaCv')}
                   </Button>
                 ) : null}

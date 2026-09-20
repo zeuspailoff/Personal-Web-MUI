@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { site } from '../data/site';
+import { asset } from '../utils/asset';
 
 /**
  * The monogram ships in two versions: a cream one for dark surfaces and a
@@ -9,7 +10,7 @@ import { site } from '../data/site';
  */
 const Logo = ({ height = 48, sx }) => {
   const theme = useTheme();
-  const src = theme.palette.mode === 'dark' ? site.logo : site.logoOnLight;
+  const src = asset(theme.palette.mode === 'dark' ? site.logo : site.logoOnLight);
 
   return (
     <Box

@@ -11,6 +11,7 @@ import Reveal from '../Reveal';
 import SectionHeading from '../SectionHeading';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { skillGroups } from '../../data/site';
+import { asset } from '../../utils/asset';
 
 const SkillBadge = ({ skill }) => (
   <Stack
@@ -31,7 +32,7 @@ const SkillBadge = ({ skill }) => (
     {skill.icon ? (
       <Box
         component="img"
-        src={skill.icon}
+        src={asset(skill.icon)}
         alt=""
         loading="lazy"
         sx={{ width: 22, height: 22, objectFit: 'contain', display: 'block' }}

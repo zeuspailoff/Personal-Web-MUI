@@ -26,6 +26,7 @@ import Logo from '../Logo';
 import { useColorMode } from '../../context/ColorModeContext';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { site } from '../../data/site';
+import { asset } from '../../utils/asset';
 
 const drawerWidth = 280;
 
@@ -119,7 +120,7 @@ const Nav = () => {
               {site.cv ? (
                 <Button
                   component="a"
-                  href={site.cv}
+                  href={asset(site.cv)}
                   download
                   variant="contained"
                   size="small"
@@ -187,7 +188,7 @@ const Nav = () => {
             <Divider sx={{ my: 1 }} />
             <Button
               component="a"
-              href={site.cv}
+              href={asset(site.cv)}
               download
               variant="contained"
               fullWidth

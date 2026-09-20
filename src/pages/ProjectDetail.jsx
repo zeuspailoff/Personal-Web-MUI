@@ -13,6 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { asset } from '../utils/asset';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -109,7 +110,7 @@ const ProjectDetail = () => {
               >
                 <Box
                   component="img"
-                  src={project.image}
+                  src={asset(project.image)}
                   alt={copy.title}
                   loading="lazy"
                   sx={{ width: '100%', height: 'auto', display: 'block' }}

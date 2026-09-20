@@ -13,6 +13,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Reveal from '../Reveal';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { asset } from '../../utils/asset';
 import { site } from '../../data/site';
 import projects, { allTech } from '../../data/projects';
 
@@ -44,8 +45,8 @@ const Hero = () => {
           position: 'absolute',
           inset: 0,
           backgroundImage: {
-            xs: 'url(/AbrahamBannerMovile.png)',
-            sm: 'url(/AbrahamBanner.png)',
+            xs: `url(${asset('/AbrahamBannerMovile.png')})`,
+            sm: `url(${asset('/AbrahamBanner.png')})`,
           },
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -131,7 +132,7 @@ const Hero = () => {
               {site.cv ? (
                 <Button
                   component="a"
-                  href={site.cv}
+                  href={asset(site.cv)}
                   download
                   variant="outlined"
                   size="large"
